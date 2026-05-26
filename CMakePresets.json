@@ -1,0 +1,19 @@
+#pragma once
+
+#include "settings/Config.h"
+
+class GuiOverlay {
+public:
+    bool init(AppConfig* cfg, bool* reloadModelRequested, bool* saveRequested, bool* exitRequested);
+    void shutdown();
+    void newFrame();
+    void render();
+    bool wantsExit() const { return wantsExit_; }
+
+private:
+    AppConfig* cfg_ = nullptr;
+    bool* reloadModelRequested_ = nullptr;
+    bool* saveRequested_ = nullptr;
+    bool* exitRequested_ = nullptr;
+    bool wantsExit_ = false;
+};

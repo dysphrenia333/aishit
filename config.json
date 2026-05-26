@@ -1,0 +1,46 @@
+#pragma once
+
+#include <string>
+#include <cstdint>
+
+struct AppConfig {
+    std::string modelPath = "models/model.onnx";
+    std::string captureMode = "RawUdp"; // RawUdp | OBS
+    std::string udpBindIp = "0.0.0.0";
+    uint16_t udpPort = 12345;
+    int obsCameraIndex = 0;
+
+    int frameWidth = 128;
+    int frameHeight = 128;
+
+    float confThreshold = 0.45f;
+    float nmsThreshold = 0.45f;
+
+    float sensitivityX = 1.0f;
+    float sensitivityY = 1.0f;
+    float smoothing = 0.14f;
+    float maxSpeed = 35.0f;
+    float deadzone = 1.0f;
+
+    float kalmanMeasurementNoise = 1.0f;
+    float kalmanPositionProcessNoise = 0.2f;
+    float kalmanVelocityProcessNoise = 0.6f;
+    float kalmanInitialP = 1.0f;
+    int lostTimeoutMs = 80;
+
+    bool alwaysOn = false;
+    int holdKeyVk = 0x02; // VK_RBUTTON
+    std::string outputMode = "WinApi";
+};
+
+class ConfigStore {
+public:
+    explicit ConfigStore(std::string path);
+
+    bool load(AppConfig& cfg);
+    bool save(const AppConfig& cfg) const;
+    const std::string& path() const { return path_; }
+
+private:
+    std::string path_;
+};
